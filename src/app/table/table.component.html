@@ -1,0 +1,54 @@
+<div class="grid">
+    <div class="col-5">
+      <p-table [value]="products">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity1</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr
+            pDraggable="products"
+            (onDragStart)="dragStart(product)"
+            (onDragEnd)="dragEnd($event)"
+          >
+            <td>{{ product.code }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.quantity }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="col-5">
+      <div *ngFor="let target of targets,index as i" >
+      <p-table [value]="target">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Code</th>
+            <th>Column A</th>
+            <th>Column B</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-target>
+          <tr>
+            <td
+              *ngFor="let col of headerSet"
+              pDraggable="target"
+              [pDroppable]="['products', 'target']"
+              (onDrop)="drop(col, target)"
+              (onDragStart)="targetDragStart(target,col, i)"
+              (onDragEnd)="targetDragEnd($event)"
+            >
+              {{ target[col.field] }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+     </div>
+    </div>
+  </div>
+  
